@@ -10,6 +10,8 @@ public class FlappyScript : MonoBehaviour
     public float horizontalBoundary = 2.5f; // Adjust based on screen width
     public Transform background; // Reference to the background
 
+   //public float rotationSpeed = 200f; // Speed of knife rotation
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,8 @@ public class FlappyScript : MonoBehaviour
 
         // Automatically move the screen horizontally
         MoveScreen();
+
+       // RotateKnife();
     }
 
     // Method to move the screen horizontally (move the background)
@@ -38,4 +42,8 @@ public class FlappyScript : MonoBehaviour
         // Move the background to the left automatically
         background.position += Vector3.left * moveSpeed * Time.deltaTime;
     }
+  // void RotateKnife()
+   // {
+      //  transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+   // }
 }
