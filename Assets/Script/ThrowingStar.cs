@@ -9,6 +9,6 @@ public class ThrowingStar : MonoBehaviour
     void Update()
     {
         // Rotate the throwing star in place
-        transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+        transform.Rotate(0, 0, -rotationSpeed * Time.deltaTime);
     }
 }
