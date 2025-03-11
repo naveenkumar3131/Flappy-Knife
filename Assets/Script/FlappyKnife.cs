@@ -1,6 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class FlappyScript : MonoBehaviour
 {
@@ -9,8 +11,9 @@ public class FlappyScript : MonoBehaviour
     public float moveSpeed = 2f; // Speed for moving the screen horizontally
     public float horizontalBoundary = 2.5f; // Adjust based on screen width
     public Transform background; // Reference to the background
+    public Transform[] hazards; // Array of hazard objects (e.g., rings, fruits, bombs)
 
-   //public float rotationSpeed = 200f; // Speed of knife rotation
+    //public float rotationSpeed = 200f; // Speed of knife rotation
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +36,9 @@ public class FlappyScript : MonoBehaviour
         // Automatically move the screen horizontally
         MoveScreen();
 
-       // RotateKnife();
+        MoveHazards();
+
+        // RotateKnife();
     }
 
     // Method to move the screen horizontally (move the background)
@@ -42,8 +47,58 @@ public class FlappyScript : MonoBehaviour
         // Move the background to the left automatically
         background.position += Vector3.left * moveSpeed * Time.deltaTime;
     }
-  // void RotateKnife()
-   // {
-      //  transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
-   // }
+    void MoveHazards()
+    {
+        foreach (Transform hazard in hazards)
+        {
+            hazard.position += Vector3.left * moveSpeed * Time.deltaTime;
+        }
+
+    }
+
+
+    // void RotateKnife()
+    // {
+    //  transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+    // }
+    // ✅ Detect when the knife passes through the inner part of the ring
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("InnerRing"))  // Safe zone inside the ring
+        {
+            Debug.Log("Passed Through the Ring! ✅");
+            // Add points or any reward system here
+        }
+        if (other.CompareTag("LevelEnd"))  // Use a trigger object at the end
+        {
+            Debug.Log("Level Complete! ✅ Loading Next Level...");
+            LoadNextLevel();
+        }
+    }
+
+    // ❌ Detect when the knife touches the outer part of the ring (Game Over)
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ring"))  // Outer collision
+        {
+            Debug.Log("Hit the Outer Ring! ❌ Game Over");
+            // Handle failure (e.g., restart game, lose life)
+        }
+    }
+    void LoadNextLevel()
+    {
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1; // Get next scene index
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)  // Check if next scene exists
+        {
+            SceneManager.LoadScene(nextSceneIndex);
+        }
+        else
+        {
+            Debug.Log("No More Levels! Game Complete ✅");
+            // You can reload the first level or show a win screen
+            SceneManager.LoadScene(0); // Restart game
+        }
+    }
+
+
 }
