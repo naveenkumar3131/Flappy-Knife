@@ -8,6 +8,8 @@ TagManager:
   - OuterRing
   - InnerRing
   - LevelEnd
+  - FruitManager
+  - Fruit
   layers:
   - Default
   - TransparentFX
