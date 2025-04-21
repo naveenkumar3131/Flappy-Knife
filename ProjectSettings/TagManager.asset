@@ -10,6 +10,7 @@ TagManager:
   - LevelEnd
   - FruitManager
   - Fruit
+  - Hazard
   layers:
   - Default
   - TransparentFX

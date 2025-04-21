@@ -71,14 +71,20 @@ public class FlappyScript : MonoBehaviour
         {
             Debug.Log("Passed Through the Ring! ✅");
             // Add points or any reward system here
+            // ✅ Notify the ring’s miss trigger
+            RingMissTrigger missTrigger = other.transform.parent.GetComponentInChildren<RingMissTrigger>();
+            if (missTrigger != null)
+            {
+                missTrigger.MarkPassed();
+            }
         }
         if (other.CompareTag("LevelEnd"))
         {
             Debug.Log("Level Complete! ✅ Loading Next Level...");
             LoadNextLevel();
         }
-        if (other.CompareTag("Fruit"))  // Fruit collection logic
-        {
+       // if (other.CompareTag("Fruit"))  // Fruit collection logic
+       // {
             if (other.CompareTag("Fruit"))  // Fruit collection logic
             {
                 string fruitType = other.gameObject.name; // Get fruit name
@@ -89,6 +95,11 @@ public class FlappyScript : MonoBehaviour
                 RemoveHazard(other.transform); // ✅ Remove fruit from hazard list
                 Destroy(other.gameObject); // Remove fruit from scene
             }
+        // }
+        if (other.CompareTag("Hazard"))
+        {
+            Debug.Log("Player hit a hazard! 💥 Losing 1 heart.");
+            FindObjectOfType<HeartManager>().TakeDamage();
         }
 
         void RemoveHazard(Transform hazard)
@@ -109,6 +120,7 @@ public class FlappyScript : MonoBehaviour
         {
             Debug.Log("Hit the Outer Ring! ❌ Game Over");
             // Handle failure (e.g., restart game, lose life)
+          //  FindObjectOfType<HeartManager>().TakeDamage();
         }
     }
 
