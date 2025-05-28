@@ -10,7 +10,7 @@ public class FlappyScript : MonoBehaviour
     public Rigidbody2D thisRigidbody;
     public float flapStrength; // Strength of the flap (upward force)
     public float moveSpeed = 2f; // Speed for moving the screen horizontally
-    public float horizontalBoundary = 2.5f; // Adjust based on screen width
+    private float horizontalBoundary = 2.5f; // Adjust based on screen width
     public Transform background; // Reference to the background
     public List<Transform> hazards = new List<Transform>(); // ✅ Ensure it's a list
 
